@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:41:38 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/10/31 19:55:31 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/10/31 20:26:19 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ void	parse_arguments(int argc, char **argv, t_arguments *args)
 				print_error();
 		}
 	}
+	if (optind >= argc)
+		print_error();
 	args->destination = argv[optind];
 	return ;
 }
