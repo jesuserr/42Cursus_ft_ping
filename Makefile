@@ -6,14 +6,14 @@
 #    By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/26 13:04:11 by jesuserr          #+#    #+#              #
-#    Updated: 2024/10/26 13:11:14 by jesuserr         ###   ########.fr        #
+#    Updated: 2024/10/26 13:41:26 by jesuserr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 LIBFT_DIR = libft/
 
 NAME = ft_ping
-SRCS = main.c
+SRCS = main.c parse.c
 PATH_SRCS = ./srcs/
 PATH_OBJS = ./srcs/objs/
 PATH_DEPS = ./srcs/objs/
