@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:43:53 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/02 21:13:36 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/02 22:52:07 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 # define SOCKET_TYPE		SOCK_RAW
 # define SOCKET_PROTOCOL	IPPROTO_ICMP
 # define ICMP_PACKET_SIZE	64
-# define PAYLOAD_48_B		"Written by Jesus Serrano (jesuserr) on Nov. 2024"
+# define PAYLOAD_40_B		"Written by Jesus Serrano on November '24"
 
 /*
 ** -.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-
@@ -55,9 +55,10 @@ typedef struct s_arguments
 typedef struct s_icmp_packet
 {
 	struct icmphdr	icmp_header;
-	uint64_t		time;
+	uint64_t		seconds;
+	uint64_t		microseconds;
 	char			payload[ICMP_PACKET_SIZE - sizeof(struct icmphdr) - \
-					sizeof(uint64_t)];
+					2 * sizeof(uint64_t)];
 }	t_icmp_packet;
 
 typedef struct s_ping_data

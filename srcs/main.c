@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:06:52 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/02 22:10:09 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/02 22:53:19 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,11 @@ void	init_ping_data(t_ping_data *ping_data)
 	ping_data->packet.icmp_header.checksum = 0;
 	ping_data->packet.icmp_header.un.echo.id = getpid() & 0xFFFF;
 	ping_data->packet.icmp_header.un.echo.sequence = 0;
-	ft_memcpy(ping_data->packet.payload, PAYLOAD_48_B, sizeof(PAYLOAD_48_B));
+	ft_memcpy(ping_data->packet.payload, PAYLOAD_40_B, sizeof(PAYLOAD_40_B));
 	if (gettimeofday(&tv, NULL) == -1)
 		print_perror_and_exit("gettimeofday");
-	ping_data->packet.time = (uint64_t)(tv.tv_sec * 1000 + tv.tv_usec / 1000);
+	ping_data->packet.seconds = tv.tv_sec;
+	ping_data->packet.microseconds = tv.tv_usec;
 	ping_data->packet.icmp_header.checksum = calc_checksum(&ping_data->packet);
 }
 
@@ -55,7 +56,6 @@ int	main(int argc, char **argv)
 	printf("Destination: %s\n", ping_data.args.dest);
 	printf("Verbose mode: %d\n", ping_data.args.verbose_mode);
 	printf("Print timestamps: %d\n", ping_data.args.print_timestamps);
-	printf("time_sent_ms: %lx\n", ping_data.packet.time);
 	send_ping(&ping_data);
 	ft_hex_dump(&ping_data, sizeof(t_ping_data), 16);
 	printf("size of t_ping_data: %ld\n", sizeof(t_ping_data));
