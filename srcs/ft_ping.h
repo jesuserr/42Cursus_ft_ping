@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:43:53 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/01 23:11:26 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/02 21:13:36 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,16 @@
 # include <netinet/ip_icmp.h>	// for struct icmphdr
 # include <arpa/inet.h>			// for inet_addr
 # include <sys/time.h>  		// for gettimeofday
+# include <sys/types.h>			// for struct addrinfo
+# include <netdb.h>				// for struct addrinfo
 
 /*
 ** -.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-
 **                              DEFINES
 */
+# define SOCKET_DOMAIN		AF_INET
+# define SOCKET_TYPE		SOCK_RAW
+# define SOCKET_PROTOCOL	IPPROTO_ICMP
 # define ICMP_PACKET_SIZE	64
 # define PAYLOAD_48_B		"Written by Jesus Serrano (jesuserr) on Nov. 2024"
 
@@ -42,7 +47,7 @@
 */
 typedef struct s_arguments
 {
-	char	*destination;
+	char	*dest;
 	bool	verbose_mode;
 	bool	print_timestamps;
 }	t_arguments;
@@ -60,6 +65,7 @@ typedef struct s_ping_data
 	t_arguments			args;
 	t_icmp_packet		packet;
 	struct sockaddr_in	dest_addr;
+	struct addrinfo		hints;
 	int					sockfd;
 }	t_ping_data;
 

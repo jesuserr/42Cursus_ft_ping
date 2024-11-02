@@ -6,17 +6,18 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:44:01 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/01 23:03:47 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/02 21:18:46 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ping.h"
 
+// is really needed sockfd to be inside t_ping_data?
 void	send_ping(t_ping_data *ping_data)
 {
 	ssize_t	bytes_sent;
 
-	ping_data->sockfd = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);
+	ping_data->sockfd = socket(SOCKET_DOMAIN, SOCKET_TYPE, SOCKET_PROTOCOL);
 	if (ping_data->sockfd == -1)
 		print_perror_and_exit("socket");
 	printf("Socket created\n");
