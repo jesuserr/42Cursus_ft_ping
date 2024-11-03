@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:43:53 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/02 22:52:07 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/03 18:19:00 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include <sys/time.h>  		// for gettimeofday
 # include <sys/types.h>			// for struct addrinfo
 # include <netdb.h>				// for struct addrinfo
+# include <signal.h>			// for signals (SIGALRM, SIGINT) 
 
 /*
 ** -.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-
@@ -50,6 +51,8 @@ typedef struct s_arguments
 	char	*dest;
 	bool	verbose_mode;
 	bool	print_timestamps;
+	bool	stop_after_count;
+	int32_t	count;
 }	t_arguments;
 
 typedef struct s_icmp_packet
@@ -76,13 +79,15 @@ typedef struct s_ping_data
 */
 /********************************** utils.c ***********************************/
 uint16_t	calc_checksum(t_icmp_packet *ptr);
+bool		check_only_digits(char *str);
+void		print_error_and_exit(char *str);
+void		print_perror_and_exit(char *msg);
+void		signal_handler(int sig);
 
 /********************************** parse.c ***********************************/
 void		parse_arguments(int argc, char **argv, t_arguments *args);
-void		print_error_and_exit(void);
 
 /********************************** ft_ping.c *********************************/
 void		send_ping(t_ping_data *ping_data);
-void		print_perror_and_exit(char *msg);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:06:52 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/02 22:53:19 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/03 19:51:45 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,30 @@ void	init_ping_data(t_ping_data *ping_data)
 	ping_data->packet.icmp_header.checksum = calc_checksum(&ping_data->packet);
 }
 
+void	init_signals(void)
+{
+	if (signal(SIGALRM, signal_handler) == SIG_ERR)
+		print_perror_and_exit("signal");
+	if (signal(SIGINT, signal_handler) == SIG_ERR)
+		print_perror_and_exit("signal");
+}
+
 int	main(int argc, char **argv)
 {
 	t_ping_data	ping_data;
 
-	ft_bzero(&ping_data, sizeof(t_ping_data));
 	if (argc < 2)
-		print_error_and_exit();
+		print_error_and_exit("Destination address required");
+	ft_bzero(&ping_data, sizeof(t_ping_data));
 	parse_arguments(argc, argv, &ping_data.args);
+	init_signals();
 	init_ping_data(&ping_data);
+	send_ping(&ping_data);
 	printf("Destination: %s\n", ping_data.args.dest);
 	printf("Verbose mode: %d\n", ping_data.args.verbose_mode);
 	printf("Print timestamps: %d\n", ping_data.args.print_timestamps);
-	send_ping(&ping_data);
+	printf("Stop after count: %d\n", ping_data.args.stop_after_count);
+	printf("Count: %d\n", ping_data.args.count);
 	ft_hex_dump(&ping_data, sizeof(t_ping_data), 16);
 	printf("size of t_ping_data: %ld\n", sizeof(t_ping_data));
 	return (0);
