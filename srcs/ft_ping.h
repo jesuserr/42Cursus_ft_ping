@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:43:53 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/03 18:19:00 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/03 23:25:23 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,14 @@ typedef struct s_ping_data
 uint16_t	calc_checksum(t_icmp_packet *ptr);
 bool		check_only_digits(char *str);
 void		print_error_and_exit(char *str);
-void		print_perror_and_exit(char *msg);
+void		print_perror_and_exit(char *msg, t_ping_data *ping_data);
 void		signal_handler(int sig);
 
 /********************************** parse.c ***********************************/
 void		parse_arguments(int argc, char **argv, t_arguments *args);
 
 /********************************** ft_ping.c *********************************/
-void		send_ping(t_ping_data *ping_data);
+void		send_icmp_packet(t_ping_data *ping_data);
+void		create_icmp_packet(t_ping_data *ping_data);
 
 #endif

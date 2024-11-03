@@ -6,16 +6,17 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 22:41:39 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/03 17:46:52 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/03 22:52:46 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ping.h"
 
 // Calculates the checksum of the whole ICMP packet treating it as a sequence of
-// 16-bit words. After the sum, it is verified if there is a carry and if so it
+// 16-bit words. After the sum it is verified if there is a carry, and if so, it
 // is added to the sum (for this reason sum is a 32-bit integer and not 16-bit).
-// The final checksum is the 16-bit one's complement of the sum. 
+// The final checksum is the 16-bit one's complement of the sum.
+// The size of the packet is assumed to be an even number of bytes.
 uint16_t	calc_checksum(t_icmp_packet *ptr)
 {
 	uint32_t	sum;
@@ -42,9 +43,13 @@ void	print_error_and_exit(char *str)
 	exit (EXIT_FAILURE);
 }
 
-void	print_perror_and_exit(char *msg)
+// Prints system error message, closes the socket if ping_data has been passed 
+// and the socket is open and then exits with EXIT_FAILURE status.
+void	print_perror_and_exit(char *msg, t_ping_data *ping_data)
 {
 	perror(msg);
+	if (ping_data && ping_data->sockfd > 0)
+		close(ping_data->sockfd);
 	exit(EXIT_FAILURE);
 }
 
