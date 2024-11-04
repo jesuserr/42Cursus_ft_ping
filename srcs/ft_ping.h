@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:43:53 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/03 23:25:23 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/04 11:44:44 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,9 @@ typedef struct s_arguments
 	bool	verbose_mode;
 	bool	print_timestamps;
 	bool	stop_after_count;
+	bool	interval;	
 	int32_t	count;
+	int32_t	interval_seconds;
 }	t_arguments;
 
 typedef struct s_icmp_packet
@@ -66,8 +68,8 @@ typedef struct s_icmp_packet
 
 typedef struct s_ping_data
 {
-	t_arguments			args;
 	t_icmp_packet		packet;
+	t_arguments			args;
 	struct sockaddr_in	dest_addr;
 	struct addrinfo		hints;
 	int					sockfd;
