@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:06:52 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/04 00:05:14 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/04 13:28:14 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	init_signals(void)
 		print_perror_and_exit("signal", NULL);
 }
 
-void	init_ping_data(t_ping_data *ping_data)
+void	init_ping_data_and_socket(t_ping_data *ping_data)
 {
 	struct addrinfo	*result;
 	int				ret;
@@ -35,7 +35,6 @@ void	init_ping_data(t_ping_data *ping_data)
 			gai_strerror(ret));
 		exit(EXIT_FAILURE);
 	}
-	printf("getaddrinfo success\n");
 	ping_data->dest_addr.sin_family = SOCKET_DOMAIN;
 	ping_data->dest_addr.sin_addr = ((struct sockaddr_in *)result->ai_addr) \
 		->sin_addr;
@@ -45,6 +44,9 @@ void	init_ping_data(t_ping_data *ping_data)
 	ping_data->packet.icmp_header.un.echo.id = getpid() & 0xFFFF;
 	ping_data->packet.icmp_header.un.echo.sequence = 0;
 	ft_memcpy(ping_data->packet.payload, PAYLOAD_40_B, sizeof(PAYLOAD_40_B));
+	ping_data->sockfd = socket(SOCKET_DOMAIN, SOCKET_TYPE, SOCKET_PROTOCOL);
+	if (ping_data->sockfd == -1)
+		print_perror_and_exit("socket", ping_data);
 }
 
 void	print_debug_data(t_ping_data *ping_data)
@@ -67,8 +69,8 @@ int	main(int argc, char **argv)
 	ft_bzero(&ping_data, sizeof(t_ping_data));
 	parse_arguments(argc, argv, &ping_data.args);
 	init_signals();
-	init_ping_data(&ping_data);
-	send_icmp_packet(&ping_data);
+	init_ping_data_and_socket(&ping_data);
+	read_loop(&ping_data);
 	print_debug_data(&ping_data);
 	close(ping_data.sockfd);
 	return (0);

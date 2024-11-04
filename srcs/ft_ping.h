@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:43:53 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/04 11:44:44 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/04 12:50:38 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void		signal_handler(int sig);
 void		parse_arguments(int argc, char **argv, t_arguments *args);
 
 /********************************** ft_ping.c *********************************/
-void		send_icmp_packet(t_ping_data *ping_data);
-void		create_icmp_packet(t_ping_data *ping_data);
+void		fill_and_send_icmp_packet(t_ping_data *ping_data);
+void		read_loop(t_ping_data *ping_data);
 
 #endif
