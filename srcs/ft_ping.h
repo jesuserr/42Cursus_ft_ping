@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:43:53 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/04 12:50:38 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:46:25 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,16 @@ uint16_t	calc_checksum(t_icmp_packet *ptr);
 bool		check_only_digits(char *str);
 void		print_error_and_exit(char *str);
 void		print_perror_and_exit(char *msg, t_ping_data *ping_data);
-void		signal_handler(int sig);
 
 /********************************** parse.c ***********************************/
 void		parse_arguments(int argc, char **argv, t_arguments *args);
 
 /********************************** ft_ping.c *********************************/
 void		fill_and_send_icmp_packet(t_ping_data *ping_data);
-void		read_loop(t_ping_data *ping_data);
+void		ping_loop(t_ping_data *ping_data);
+
+/********************************** signals.c *********************************/
+void		init_signals(t_ping_data *ping_data);
+void		signal_handler(int sig);
 
 #endif

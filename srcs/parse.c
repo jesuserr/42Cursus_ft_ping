@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:41:38 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/04 11:51:25 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:28:43 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int32_t	check_argument_value(char *optarg)
 void	parse_arguments(int argc, char **argv, t_arguments *args)
 {
 	int		opt;
-
+	
+	args->interval_seconds = 1;
 	while ((opt = getopt(argc, argv, "c:Dh?i:vV")) != -1)
 	{
 		switch (opt)

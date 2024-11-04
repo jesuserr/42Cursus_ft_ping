@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 22:41:39 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/03 22:52:46 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/04 13:51:35 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,4 @@ bool	check_only_digits(char *str)
 		i++;
 	}
 	return (true);
-}
-
-void	signal_handler(int sig)
-{
-	if (sig == SIGALRM)
-		printf("Signal alarm received\n");
-	else if (sig == SIGINT)
-	{
-		printf("Signal int received\n");
-		exit(EXIT_SUCCESS);
-	}
 }

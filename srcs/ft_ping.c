@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:44:01 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/04 13:28:03 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:46:25 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,15 @@ void	fill_and_send_icmp_packet(t_ping_data *ping_data)
 		print_perror_and_exit("sendto", ping_data);
 }
 
-void	read_loop(t_ping_data *ping_data)
+void	ping_loop(t_ping_data *ping_data)
 {
+	fill_and_send_icmp_packet(ping_data);
+	alarm(ping_data->args.interval_seconds);
 	while (1)
 	{
-		fill_and_send_icmp_packet(ping_data);
-		ping_data->packet.icmp_header.un.echo.sequence++;
 		if (ping_data->args.stop_after_count && \
 		ping_data->packet.icmp_header.un.echo.sequence >= ping_data->args.count)
 			break ;
-		sleep(ping_data->args.interval_seconds);
 	}
 	return ;
 }

@@ -6,19 +6,11 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:06:52 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/04 13:28:14 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:46:25 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ping.h"
-
-void	init_signals(void)
-{
-	if (signal(SIGALRM, signal_handler) == SIG_ERR)
-		print_perror_and_exit("signal", NULL);
-	if (signal(SIGINT, signal_handler) == SIG_ERR)
-		print_perror_and_exit("signal", NULL);
-}
 
 void	init_ping_data_and_socket(t_ping_data *ping_data)
 {
@@ -68,9 +60,9 @@ int	main(int argc, char **argv)
 		print_error_and_exit("Destination address required");
 	ft_bzero(&ping_data, sizeof(t_ping_data));
 	parse_arguments(argc, argv, &ping_data.args);
-	init_signals();
+	init_signals(&ping_data);
 	init_ping_data_and_socket(&ping_data);
-	read_loop(&ping_data);
+	ping_loop(&ping_data);
 	print_debug_data(&ping_data);
 	close(ping_data.sockfd);
 	return (0);
