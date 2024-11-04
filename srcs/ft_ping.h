@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:43:53 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/04 18:33:08 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/04 19:36:13 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,8 @@ void		ping_loop(t_ping_data *ping_data);
 /********************************** signals.c *********************************/
 void		init_signals(t_ping_data *ping_data);
 void		signal_handler(int sig);
+
+/********************************** print.c ***********************************/
+void		print_header(t_ping_data *ping_data);
 
 #endif

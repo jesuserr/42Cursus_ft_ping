@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:06:52 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/04 16:46:25 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/04 19:48:30 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	init_ping_data_and_socket(t_ping_data *ping_data)
 	ping_data->packet.icmp_header.code = 0;
 	ping_data->packet.icmp_header.un.echo.id = getpid() & 0xFFFF;
 	ping_data->packet.icmp_header.un.echo.sequence = 0;
-	ft_memcpy(ping_data->packet.payload, PAYLOAD_40_B, sizeof(PAYLOAD_40_B));
+	ft_memcpy(ping_data->packet.payload, PAYLOAD_40_B, ft_strlen(PAYLOAD_40_B));
 	ping_data->sockfd = socket(SOCKET_DOMAIN, SOCKET_TYPE, SOCKET_PROTOCOL);
 	if (ping_data->sockfd == -1)
 		print_perror_and_exit("socket", ping_data);

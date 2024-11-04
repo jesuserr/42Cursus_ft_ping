@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 13:51:08 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/04 16:59:35 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/04 19:33:49 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	signal_handler(int sig)
 {
 	if (sig == SIGALRM)
 	{
-		g_static_ping_data->packet.icmp_header.un.echo.sequence++;
 		fill_and_send_icmp_packet(g_static_ping_data);
 		alarm(g_static_ping_data->args.interval_seconds);
 	}
