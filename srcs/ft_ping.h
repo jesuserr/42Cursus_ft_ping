@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:43:53 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/04 19:36:13 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/04 20:44:53 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_ping_data
 	struct sockaddr_in	dest_addr;
 	struct addrinfo		hints;
 	int					sockfd;
+	char				ip_str[INET_ADDRSTRLEN];
 }	t_ping_data;
 
 /*
@@ -99,5 +100,7 @@ void		signal_handler(int sig);
 
 /********************************** print.c ***********************************/
 void		print_header(t_ping_data *ping_data);
+void		print_response_line(t_ping_data *ping_data, t_icmp_packet packet, \
+			uint8_t ttl);
 
 #endif

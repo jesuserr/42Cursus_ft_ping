@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:44:01 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/04 19:35:17 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/04 20:43:25 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ void	receive_packet(t_ping_data *ping_data)
 		print_perror_and_exit("recvfrom", ping_data);
 	ip_header = (struct iphdr *)buffer;
 	ft_memcpy(&packet, buffer + (ip_header->ihl * 4), sizeof(t_icmp_packet));
-	ft_hex_dump(&packet, sizeof(t_icmp_packet), 16);
+	//ft_hex_dump(&packet, sizeof(t_icmp_packet), 16);
 	if (packet.icmp_header.un.echo.id == ping_data->packet.icmp_header.un.\
 		echo.id)
-		printf("Received packet with id %d\n", packet.icmp_header.un.echo.id);
+		print_response_line(ping_data, packet, ip_header->ttl);
 }
 
 void	ping_loop(t_ping_data *ping_data)
