@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 13:51:08 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/04 16:32:24 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/04 16:59:35 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	init_signals(t_ping_data *ping_data)
 		print_perror_and_exit("signal", NULL);
 	if (signal(SIGINT, signal_handler) == SIG_ERR)
 		print_perror_and_exit("signal", NULL);
-	printf("%s\n", g_static_ping_data->args.dest);
 }
 
 void	signal_handler(int sig)

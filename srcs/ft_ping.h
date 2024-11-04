@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:43:53 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/04 16:46:25 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/04 18:33:08 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 # define SOCKET_PROTOCOL	IPPROTO_ICMP
 # define ICMP_PACKET_SIZE	64
 # define PAYLOAD_40_B		"Written by Jesus Serrano on November '24"
+# define BUFFER_LEN			1024
 
 /*
 ** -.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-
