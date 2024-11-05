@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:06:52 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/04 19:48:30 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/05 10:24:34 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	main(int argc, char **argv)
 	init_signals(&ping_data);
 	init_ping_data_and_socket(&ping_data);
 	ping_loop(&ping_data);
-	print_debug_data(&ping_data);
+	//print_debug_data(&ping_data);
 	close(ping_data.sockfd);
 	return (0);
 }
