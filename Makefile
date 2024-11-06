@@ -6,7 +6,7 @@
 #    By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/26 13:04:11 by jesuserr          #+#    #+#              #
-#    Updated: 2024/11/04 19:35:40 by jesuserr         ###   ########.fr        #
+#    Updated: 2024/11/07 00:28:01 by jesuserr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ DEPS = $(addprefix $(PATH_DEPS), $(SRCS:.c=.d))
 INCLUDE = -I./ -I./libft/includes/
 RM = rm -f
 CFLAGS = -Wall -Wextra -Werror -g -pedantic -Wshadow
+LDFLAGS = -lm
 
 NORM = $(addprefix $(PATH_SRCS), $(SRCS_NORM)) srcs/ft_ping.h
 GREEN = "\033[0;92m"
@@ -43,7 +44,7 @@ $(PATH_OBJS)%.o: $(PATH_SRCS)%.c Makefile
 	$(CC) $(CFLAGS) -MMD $(INCLUDE) -c $< -o $@
 
 $(NAME): $(OBJS) $(LIBFT_DIR)libft.a
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_DIR)libft.a -o $@
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_DIR)libft.a -o $@ $(LDFLAGS)
 	@echo ${GREEN}"ft_ping Compiled!\n"${NC};
 -include $(DEPS)
 

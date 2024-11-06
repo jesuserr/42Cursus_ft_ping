@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:43:53 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/05 09:33:07 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/07 00:31:32 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@
 # include <sys/time.h>  		// for gettimeofday
 # include <sys/types.h>			// for struct addrinfo
 # include <netdb.h>				// for struct addrinfo
-# include <signal.h>			// for signals (SIGALRM, SIGINT) 
+# include <signal.h>			// for signals (SIGALRM, SIGINT)
+# include <math.h>				// for sqrt
 
 /*
 ** -.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-
@@ -42,6 +43,7 @@
 # define ICMP_PACKET_SIZE	64
 # define PAYLOAD_40_B		"Written by Jesus Serrano on November '24"
 # define BUFFER_LEN			1024
+# define FLOAT_MAX			3.402823466e+38F
 
 /*
 ** -.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-
@@ -76,6 +78,11 @@ typedef struct s_ping_data
 	int					sockfd;
 	char				ip_str[INET_ADDRSTRLEN];
 	uint16_t			packets_received;
+	float				min_time;
+	float				max_time;
+	float				sum_times;
+	float				mean_time;
+	float				square_dist;
 }	t_ping_data;
 
 /*
