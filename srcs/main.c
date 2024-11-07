@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:06:52 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/05 10:24:34 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/07 15:04:54 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,6 @@ void	init_ping_data_and_socket(t_ping_data *ping_data)
 		print_perror_and_exit("socket", ping_data);
 }
 
-void	print_debug_data(t_ping_data *ping_data)
-{
-	printf("Destination: %s\n", ping_data->args.dest);
-	printf("Verbose mode: %d\n", ping_data->args.verbose_mode);
-	printf("Print timestamps: %d\n", ping_data->args.print_timestamps);
-	printf("Stop after count: %d\n", ping_data->args.stop_after_count);
-	printf("Count: %d\n", ping_data->args.count);
-	ft_hex_dump(ping_data, sizeof(t_ping_data), 16);
-	printf("size of t_ping_data: %ld\n", sizeof(t_ping_data));
-}
-
 int	main(int argc, char **argv)
 {
 	t_ping_data	ping_data;
@@ -63,7 +52,5 @@ int	main(int argc, char **argv)
 	init_signals(&ping_data);
 	init_ping_data_and_socket(&ping_data);
 	ping_loop(&ping_data);
-	//print_debug_data(&ping_data);
-	close(ping_data.sockfd);
-	return (0);
+	return (EXIT_SUCCESS);
 }

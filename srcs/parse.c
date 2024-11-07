@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:41:38 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/04 16:28:43 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/07 14:55:48 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ void	parse_arguments(int argc, char **argv, t_arguments *args)
 	int		opt;
 	
 	args->interval_seconds = 1;
+	args->count = INT32_MAX;
 	while ((opt = getopt(argc, argv, "c:Dh?i:vV")) != -1)
 	{
 		switch (opt)
 		{
 			case 'c':
-				args->stop_after_count = true;
 				args->count = check_argument_value(optarg);
 				break ;
 			case 'D':

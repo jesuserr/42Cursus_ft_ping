@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:44:01 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/07 00:38:27 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/07 15:08:14 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,11 @@ void	ping_loop(t_ping_data *ping_data)
 	while (1)
 	{
 		receive_packet(ping_data);
-		if (ping_data->args.stop_after_count && \
-		ping_data->packet.icmp_header.un.echo.sequence >= ping_data->args.count)
+		if (ping_data->packet.icmp_header.un.echo.sequence >= \
+		ping_data->args.count)
 			break ;
 	}
 	print_summary(ping_data);
+	close(ping_data->sockfd);
 	return ;
 }

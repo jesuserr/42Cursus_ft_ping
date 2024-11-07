@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:43:53 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/07 00:31:32 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/07 14:55:14 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ typedef struct s_arguments
 	char	*dest;
 	bool	verbose_mode;
 	bool	print_timestamps;
-	bool	stop_after_count;
 	bool	interval;	
 	int32_t	count;
 	int32_t	interval_seconds;

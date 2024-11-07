@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 19:31:42 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/07 00:47:01 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/07 09:01:59 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	print_summary(t_ping_data *ping_data)
 	printf("%d ", ping_data->packet.icmp_header.un.echo.sequence);
 	printf("packets transmitted, %d ", ping_data->packets_received);
 	printf("packets received, %.0f%% packet loss\n", loss);
+	if (ping_data->packets_received == 0)
+		return ;
 	printf("round-trip min/avg/max/stddev = %.3f/", ping_data->min_time);
 	printf("%.3f/", ping_data->sum_times / ping_data->packets_received);
 	printf("%.3f/", ping_data->max_time);

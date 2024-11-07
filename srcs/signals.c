@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 13:51:08 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/04 19:33:49 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/07 13:28:15 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,15 @@ void	signal_handler(int sig)
 {
 	if (sig == SIGALRM)
 	{
-		fill_and_send_icmp_packet(g_static_ping_data);
+		if (g_static_ping_data->packet.icmp_header.un.echo.sequence < \
+		g_static_ping_data->args.count)
+			fill_and_send_icmp_packet(g_static_ping_data);
 		alarm(g_static_ping_data->args.interval_seconds);
 	}
 	else if (sig == SIGINT)
 	{
-		printf("Signal int received\n");
+		print_summary(g_static_ping_data);
+		close(g_static_ping_data->sockfd);
 		exit(EXIT_SUCCESS);
 	}
 }
