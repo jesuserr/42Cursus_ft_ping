@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 19:31:42 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/07 09:01:59 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/07 16:12:53 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	print_response_line(t_ping_data *ping_data, t_icmp_packet packet, \
 	ping_data->packets_received++;
 	if (gettimeofday(&tv, NULL) == -1)
 		print_perror_and_exit("gettimeofday", ping_data);
+	if (ping_data->args.print_timestamps)
+		printf("[%ld.%ld] ", tv.tv_sec, tv.tv_usec);
 	tv.tv_sec = tv.tv_sec - packet.seconds;
 	tv.tv_usec = tv.tv_usec - packet.microseconds;
 	time_ms = tv.tv_sec * 1000 + (float)tv.tv_usec / 1000;

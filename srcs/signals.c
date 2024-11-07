@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 13:51:08 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/07 15:56:56 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/07 15:58:20 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	init_signals(t_ping_data *ping_data)
 	if (signal(SIGALRM, signal_handler) == SIG_ERR)
 		print_perror_and_exit("SIGALRM signal", NULL);
 	if (signal(SIGINT, signal_handler) == SIG_ERR)
-		print_perror_and_exit("SIGINT signal", NULL);		
+		print_perror_and_exit("SIGINT signal", NULL);
 }
 
 // (SIGALRM) When 'count' number of packets transmitted is reached, no more
