@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 19:31:42 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/07 16:12:53 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/07 16:27:43 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	print_response_line(t_ping_data *ping_data, t_icmp_packet packet, \
 	ping_data->packets_received++;
 	if (gettimeofday(&tv, NULL) == -1)
 		print_perror_and_exit("gettimeofday", ping_data);
-	if (ping_data->args.print_timestamps)
+	if (ping_data->args.print_timestamps && !ping_data->args.quiet_mode)
 		printf("[%ld.%ld] ", tv.tv_sec, tv.tv_usec);
 	tv.tv_sec = tv.tv_sec - packet.seconds;
 	tv.tv_usec = tv.tv_usec - packet.microseconds;
@@ -48,6 +48,8 @@ void	print_response_line(t_ping_data *ping_data, t_icmp_packet packet, \
 	delta_time = time_ms - ping_data->mean_time;
 	ping_data->mean_time += delta_time / ping_data->packets_received;
 	ping_data->square_dist += delta_time * (time_ms - ping_data->mean_time);
+	if (ping_data->args.quiet_mode)
+		return ;
 	printf("%ld bytes from %s: ", sizeof(t_icmp_packet), ping_data->ip_str);
 	printf("icmp_seq=%d ", packet.icmp_header.un.echo.sequence);
 	printf("ttl=%d time=%.3f ms \n", ttl, time_ms);

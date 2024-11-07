@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:41:38 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/07 14:55:48 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/07 16:23:33 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	print_usage(void)
 		"  -D                 print timestamps\n"
 		"  -h or -?           print help and exit\n"
 		"  -i <interval>      seconds between sending each packet\n"
+		"  -q                 quiet output\n"
 		"  -v                 verbose output\n"
 		"  -V                 print version and exit\n");
 	return ;
@@ -43,7 +44,7 @@ void	parse_arguments(int argc, char **argv, t_arguments *args)
 	
 	args->interval_seconds = 1;
 	args->count = INT32_MAX;
-	while ((opt = getopt(argc, argv, "c:Dh?i:vV")) != -1)
+	while ((opt = getopt(argc, argv, "c:Dh?i:qvV")) != -1)
 	{
 		switch (opt)
 		{
@@ -60,6 +61,9 @@ void	parse_arguments(int argc, char **argv, t_arguments *args)
 			case 'i':
 				args->interval = true;
 				args->interval_seconds = check_argument_value(optarg);
+				break ;
+			case 'q':
+				args->quiet_mode = true;
 				break ;
 			case 'v':
 				args->verbose_mode = true;
