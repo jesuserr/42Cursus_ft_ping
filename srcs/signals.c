@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 13:51:08 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/07 15:58:20 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/08 16:53:20 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,21 @@ void	signal_handler(int sig)
 		close(g_static_ping_data->sockfd);
 		exit(EXIT_SUCCESS);
 	}
+}
+
+void	print_error_and_exit(char *str)
+{
+	printf("ft_ping: usage error: %s\n", str);
+	printf("Try 'ft_ping -h' or 'ft_ping -?' for more information.\n");
+	exit (EXIT_FAILURE);
+}
+
+// Prints system error message, closes the socket if ping_data has been passed 
+// and the socket is open and then exits with EXIT_FAILURE status.
+void	print_perror_and_exit(char *msg, t_ping_data *ping_data)
+{
+	perror(msg);
+	if (ping_data && ping_data->sockfd > 0)
+		close(ping_data->sockfd);
+	exit(EXIT_FAILURE);
 }

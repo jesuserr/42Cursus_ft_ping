@@ -6,15 +6,15 @@
 #    By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/26 13:04:11 by jesuserr          #+#    #+#              #
-#    Updated: 2024/11/07 00:28:01 by jesuserr         ###   ########.fr        #
+#    Updated: 2024/11/08 16:54:41 by jesuserr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 LIBFT_DIR = libft/
 
 NAME = ft_ping
-SRCS = main.c parse.c ft_ping.c utils.c signals.c print.c
-SRCS_NORM = main.c ft_ping.c utils.c signals.c print.c
+SRCS = main.c parser.c ft_ping.c signals.c messages.c
+SRCS_NORM = main.c ft_ping.c signals.c messages.c
 PATH_SRCS = ./srcs/
 PATH_OBJS = ./srcs/objs/
 PATH_DEPS = ./srcs/objs/

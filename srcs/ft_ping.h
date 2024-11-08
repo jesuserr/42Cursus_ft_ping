@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:43:53 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/08 16:29:26 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/08 17:00:33 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,28 +95,25 @@ typedef struct s_ping_data
 ** -.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-
 **                        FUNCTION PROTOTYPES
 */
-/********************************** utils.c ***********************************/
-uint16_t	calc_checksum(t_icmp_packet *ptr);
-void		print_error_and_exit(char *str);
-void		print_perror_and_exit(char *msg, t_ping_data *ping_data);
-
-/********************************** parse.c ***********************************/
-void		parse_arguments(int argc, char **argv, t_arguments *args);
-
 /********************************** ft_ping.c *********************************/
 void		fill_and_send_icmp_packet(t_ping_data *ping_data);
 void		ping_loop(t_ping_data *ping_data);
 
-/********************************** signals.c *********************************/
-void		init_signals(t_ping_data *ping_data);
-void		signal_handler(int sig);
-
-/********************************** print.c ***********************************/
+/********************************** messages.c ********************************/
 void		print_header(t_ping_data *ping_data);
 void		print_response_line(t_ping_data *ping_data, t_icmp_packet packet, \
 			uint8_t ttl);
 void		print_ttl_exceeded_line(t_ping_data *ping_data, char *buff, \
 			struct iphdr *ip_header);
 void		print_summary(t_ping_data *ping_data);
+
+/********************************** parser.c **********************************/
+void		parse_arguments(int argc, char **argv, t_arguments *args);
+
+/********************************** signals.c *********************************/
+void		init_signals(t_ping_data *ping_data);
+void		signal_handler(int sig);
+void		print_error_and_exit(char *str);
+void		print_perror_and_exit(char *msg, t_ping_data *ping_data);
 
 #endif
