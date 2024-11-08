@@ -6,12 +6,14 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:41:38 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/08 17:05:28 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/08 17:48:20 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ping.h"
 
+// Mandatory: -h or -?, -v and -V (3)
+// Bonus: -c <count>, -D, -i <interval>, -q, -t <ttl> and -W <timeout> (6)
 void	print_usage(void)
 {
 	printf("Usage\n"

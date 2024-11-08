@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 19:31:42 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/08 17:05:53 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/08 19:22:48 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	print_header(t_ping_data *ping_data)
 
 // 64 bytes from 79.154.85.235: icmp_seq=0 ttl=165 time=0.914 ms
 // Uses Welford's algorithm to calculate the population standard deviation on
-// the fly just in one single pass.
+// the fly (just in one single pass).
 void	print_response_line(t_ping_data *ping_data, t_icmp_packet packet, \
 		uint8_t ttl)
 {
@@ -41,7 +41,7 @@ void	print_response_line(t_ping_data *ping_data, t_icmp_packet packet, \
 
 	ping_data->packets_received++;
 	if (gettimeofday(&tv, NULL) == -1)
-		print_perror_and_exit("gettimeofday", ping_data);
+		print_perror_and_exit("gettimeofday receive packet", ping_data);
 	if (ping_data->args.print_timestamps && !ping_data->args.quiet_mode)
 		printf("[%ld.%ld] ", tv.tv_sec, tv.tv_usec);
 	tv.tv_sec = tv.tv_sec - packet.seconds;
@@ -62,12 +62,17 @@ void	print_response_line(t_ping_data *ping_data, t_icmp_packet packet, \
 	printf("ttl=%d time=%.3f ms \n", ttl, time_ms);
 }
 
+// buff contains the time exceeded received packet, which consists of the source
+// IP address (20 bytes) + ICMP header (8 bytes) + original IP header (20 bytes)
+// + original echo request packet (64 bytes). Values between () are not taken by
+// granted, provided just for reference. Access to original ICMP header is
+// needed to get the sequence number of the original packet.
 // From xxx.xxx.xxx.xxx icmp_seq=x Time to live exceeded
 void	print_ttl_exceeded_line(t_ping_data *ping_data, char *buff, \
 		struct iphdr *ip_header)
 {
 	struct icmphdr	*inner_icmp_header;
-	char			src_addr_str[INET_ADDRSTRLEN];	
+	char			src_addr_str[INET_ADDRSTRLEN];
 
 	inner_icmp_header = (struct icmphdr *)(buff + (ip_header->ihl * 4) + \
 	sizeof(struct icmphdr) + sizeof(struct iphdr));

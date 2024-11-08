@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:44:01 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/08 17:23:59 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/08 19:40:38 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ uint16_t	calc_checksum(t_icmp_packet *ptr)
 	return ((uint16_t)(~sum));
 }
 
+// Fills the ICMP packet with the necessary data and sends it. The payload
+// includes the time the packet is sent, so the RTT can be calculated when the
+// packet is received.
 void	fill_and_send_icmp_packet(t_ping_data *ping_data)
 {
 	struct timeval	tv;
@@ -43,7 +46,7 @@ void	fill_and_send_icmp_packet(t_ping_data *ping_data)
 
 	ping_data->packet.icmp_header.checksum = 0;
 	if (gettimeofday(&tv, NULL) == -1)
-		print_perror_and_exit("gettimeofday", ping_data);
+		print_perror_and_exit("gettimeofday send packet", ping_data);
 	ping_data->packet.seconds = tv.tv_sec;
 	ping_data->packet.microseconds = tv.tv_usec;
 	ping_data->packet.icmp_header.checksum = calc_checksum(&ping_data->packet);
@@ -58,15 +61,17 @@ void	fill_and_send_icmp_packet(t_ping_data *ping_data)
 // Size of icmp_packet when is sent is 64 bytes. When the packet is received its
 // size is 84 bytes, since the 20 bytes IP header is now attached at the
 // beginning. In any case IP header length is calculated (not assumed to be 20).
+// Comment valid only for ICMP_ECHOREPLY packets. ICMP_TIME_EXCEEDED packets are
+// typically larger.
+
 // Since recvfrom() is blocking, conditions EWOULDBLOCK / EAGAIN are checked to
-// see if the function call failed because no data was available to read within
-// the specified timeout period. EINTR is checked to see if the function call
-// failed because it was interrupted by a signal, and if so, recvfrom() is
-// called again. If correct data is received, the loop is broken and the packet
-// info processed and printed, after verification that it is an ICMP_ECHOREPLY
-// and the id of the packet is the same as the one sent.
-// For ICMP_TIME_EXCEEDED packets, there is no processing since the reference
-// ping from inetutils-2.0 is not doing it either. 
+// see if recvfrom() failed because no data was available to read within the
+// specified timeout period. EINTR is checked to see if recvfrom() failed
+// because it was interrupted by a signal, and if so, function is called again.
+
+// If correct data is received, the loop is broken and the packet info processed
+// and printed, after verification that it is a packet addressed to us and it is
+// of the type we are expecting (ICMP_ECHOREPLY or ICMP_TIME_EXCEEDED).
 void	receive_packet(t_ping_data *ping_data)
 {
 	struct iphdr	*ip_header;
@@ -96,6 +101,11 @@ void	receive_packet(t_ping_data *ping_data)
 		print_response_line(ping_data, packet, ip_header->ttl);
 }
 
+// Main loop of the program. The first packet is sent and an alarm is set to
+// send the next packet after the predetermined interval. The loop will run
+// forever or until the number of packets specified by the user is reached.
+// Loop can be broken with SIGINT signal (Ctrl+C). When loop is broken, the
+// summary is printed and the socket is closed.
 void	ping_loop(t_ping_data *ping_data)
 {
 	ping_data->min_time = FLOAT_MAX;

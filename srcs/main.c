@@ -6,12 +6,15 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:06:52 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/08 00:19:27 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/08 19:28:58 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ping.h"
 
+// Sets the socket options to deal with TTL and timeout. The values are set
+// according to the arguments passed or the default values if no arguments are
+// passed (handled in the parser).
 void	set_socket_ttl_and_timeout(t_ping_data *ping_data)
 {
 	int				ret;
@@ -29,6 +32,9 @@ void	set_socket_ttl_and_timeout(t_ping_data *ping_data)
 		print_perror_and_exit("setsockopt timeout", ping_data);
 }
 
+// Uses getaddrinfo to obtain the destination address and then is stored in
+// ping_data->dest_addr.sin_addr. The ICMP packet is initialized with the
+// necessary common values and socket is created.
 void	init_ping_data_and_socket(t_ping_data *ping_data)
 {
 	struct addrinfo	*result;
