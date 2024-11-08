@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 19:31:42 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/07 16:27:43 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/08 09:17:42 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	print_summary(t_ping_data *ping_data)
 	float	loss;
 
 	loss = 100 - (((float)ping_data->packets_received / \
-		(float)ping_data->packet.icmp_header.un.echo.sequence) * 100);
+	(float)ping_data->packet.icmp_header.un.echo.sequence) * 100);
 	printf("--- %s ping statistics ---\n", ping_data->args.dest);
 	printf("%d ", ping_data->packet.icmp_header.un.echo.sequence);
 	printf("packets transmitted, %d ", ping_data->packets_received);

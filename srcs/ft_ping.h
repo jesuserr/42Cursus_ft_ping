@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:43:53 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/07 16:23:18 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/07 21:00:38 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # include <netdb.h>				// for struct addrinfo
 # include <signal.h>			// for signals (SIGALRM, SIGINT)
 # include <math.h>				// for sqrt
+# include <errno.h>				// for errno
 
 /*
 ** -.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-
@@ -44,6 +45,9 @@
 # define PAYLOAD_40_B		"Written by Jesus Serrano on November '24"
 # define BUFFER_LEN			1024
 # define FLOAT_MAX			3.402823466e+38F
+# define DEFAULT_INTERVAL	1
+# define DEFAULT_TTL		64
+# define DEFAULT_TIMEOUT	10
 
 /*
 ** -.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-
@@ -51,13 +55,15 @@
 */
 typedef struct s_arguments
 {
-	char	*dest;
-	bool	verbose_mode;
-	bool	print_timestamps;
-	bool	interval;
-	bool	quiet_mode;
-	int32_t	count;
-	int32_t	interval_seconds;
+	char		*dest;
+	bool		verbose_mode;
+	bool		print_timestamps;
+	bool		interval;
+	bool		quiet_mode;
+	int32_t		count;
+	int32_t		interval_seconds;
+	int32_t		timeout;
+	u_int8_t	ttl;
 }	t_arguments;
 
 typedef struct s_icmp_packet
@@ -91,7 +97,6 @@ typedef struct s_ping_data
 */
 /********************************** utils.c ***********************************/
 uint16_t	calc_checksum(t_icmp_packet *ptr);
-bool		check_only_digits(char *str);
 void		print_error_and_exit(char *str);
 void		print_perror_and_exit(char *msg, t_ping_data *ping_data);
 

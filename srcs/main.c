@@ -6,11 +6,28 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:06:52 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/07 15:04:54 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/08 00:19:27 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ping.h"
+
+void	set_socket_ttl_and_timeout(t_ping_data *ping_data)
+{
+	int				ret;
+	struct timeval	timeout;
+
+	ret = setsockopt(ping_data->sockfd, IPPROTO_IP, IP_TTL, \
+	&ping_data->args.ttl, sizeof(ping_data->args.ttl));
+	if (ret == -1)
+		print_perror_and_exit("setsockopt ttl", ping_data);
+	timeout.tv_sec = ping_data->args.timeout;
+	timeout.tv_usec = 0;
+	ret = setsockopt(ping_data->sockfd, SOL_SOCKET, SO_RCVTIMEO, &timeout, \
+	sizeof(timeout));
+	if (ret == -1)
+		print_perror_and_exit("setsockopt timeout", ping_data);
+}
 
 void	init_ping_data_and_socket(t_ping_data *ping_data)
 {
@@ -24,12 +41,12 @@ void	init_ping_data_and_socket(t_ping_data *ping_data)
 	if (ret != 0)
 	{
 		fprintf(stderr, "ft_ping: %s: %s\n", ping_data->args.dest, \
-			gai_strerror(ret));
+		gai_strerror(ret));
 		exit(EXIT_FAILURE);
 	}
 	ping_data->dest_addr.sin_family = SOCKET_DOMAIN;
 	ping_data->dest_addr.sin_addr = ((struct sockaddr_in *)result->ai_addr) \
-		->sin_addr;
+	->sin_addr;
 	freeaddrinfo(result);
 	ping_data->packet.icmp_header.type = ICMP_ECHO;
 	ping_data->packet.icmp_header.code = 0;
@@ -51,6 +68,7 @@ int	main(int argc, char **argv)
 	parse_arguments(argc, argv, &ping_data.args);
 	init_signals(&ping_data);
 	init_ping_data_and_socket(&ping_data);
+	set_socket_ttl_and_timeout(&ping_data);
 	ping_loop(&ping_data);
 	return (EXIT_SUCCESS);
 }

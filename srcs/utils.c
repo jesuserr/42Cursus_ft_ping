@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/01 22:41:39 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/04 13:51:35 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/07 20:53:42 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,4 @@ void	print_perror_and_exit(char *msg, t_ping_data *ping_data)
 	if (ping_data && ping_data->sockfd > 0)
 		close(ping_data->sockfd);
 	exit(EXIT_FAILURE);
-}
-
-bool	check_only_digits(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			return (false);
-		i++;
-	}
-	return (true);
 }
