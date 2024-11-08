@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 19:31:42 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/08 19:22:48 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/08 19:53:38 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	print_response_line(t_ping_data *ping_data, t_icmp_packet packet, \
 // + original echo request packet (64 bytes). Values between () are not taken by
 // granted, provided just for reference. Access to original ICMP header is
 // needed to get the sequence number of the original packet.
+// If the packet is not addressed to us, it is discarded.
 // From xxx.xxx.xxx.xxx icmp_seq=x Time to live exceeded
 void	print_ttl_exceeded_line(t_ping_data *ping_data, char *buff, \
 		struct iphdr *ip_header)
@@ -76,6 +77,9 @@ void	print_ttl_exceeded_line(t_ping_data *ping_data, char *buff, \
 
 	inner_icmp_header = (struct icmphdr *)(buff + (ip_header->ihl * 4) + \
 	sizeof(struct icmphdr) + sizeof(struct iphdr));
+	if (inner_icmp_header->un.echo.id != \
+	ping_data->packet.icmp_header.un.echo.id)
+		return ;
 	if (inet_ntop(AF_INET, &(ip_header->saddr), src_addr_str, INET_ADDRSTRLEN) \
 	== NULL)
 		print_perror_and_exit("inet_ntop ttl line", ping_data);
