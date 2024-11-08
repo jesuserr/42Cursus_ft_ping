@@ -6,20 +6,27 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 19:31:42 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/08 09:17:42 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/08 16:29:14 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ping.h"
 
 // PING ivoice.synology.me (79.154.85.235): 56 data bytes
+// PING ivoice.synology.me (79.154.85.235): 56 data bytes, id 0x0f90 = 3984
 void	print_header(t_ping_data *ping_data)
 {
 	if (inet_ntop(AF_INET, &(ping_data->dest_addr.sin_addr), ping_data->ip_str, \
 	INET_ADDRSTRLEN) == NULL)
-		print_perror_and_exit("inet_ntop", ping_data);
+		print_perror_and_exit("inet_ntop header", ping_data);
 	printf("PING %s (%s): ", ping_data->args.dest, ping_data->ip_str);
-	printf("%ld data bytes\n", sizeof(t_icmp_packet) - sizeof(struct icmphdr));
+	printf("%ld data bytes", sizeof(t_icmp_packet) - sizeof(struct icmphdr));
+	if (ping_data->args.verbose_mode)
+	{
+		printf(", id 0x%04x =", ping_data->packet.icmp_header.un.echo.id);
+		printf(" %d", ping_data->packet.icmp_header.un.echo.id);
+	}
+	printf("\n");
 }
 
 // 64 bytes from 79.154.85.235: icmp_seq=0 ttl=165 time=0.914 ms
@@ -53,6 +60,22 @@ void	print_response_line(t_ping_data *ping_data, t_icmp_packet packet, \
 	printf("%ld bytes from %s: ", sizeof(t_icmp_packet), ping_data->ip_str);
 	printf("icmp_seq=%d ", packet.icmp_header.un.echo.sequence);
 	printf("ttl=%d time=%.3f ms \n", ttl, time_ms);
+}
+
+// From xxx.xxx.xxx.xxx icmp_seq=x Time to live exceeded
+void	print_ttl_exceeded_line(t_ping_data *ping_data, char *buff, \
+		struct iphdr *ip_header)
+{
+	struct icmphdr	*inner_icmp_header;
+	char			src_addr_str[INET_ADDRSTRLEN];	
+
+	inner_icmp_header = (struct icmphdr *)(buff + (ip_header->ihl * 4) + \
+	sizeof(struct icmphdr) + sizeof(struct iphdr));
+	if (inet_ntop(AF_INET, &(ip_header->saddr), src_addr_str, INET_ADDRSTRLEN) \
+	== NULL)
+		print_perror_and_exit("inet_ntop ttl line", ping_data);
+	printf("From %s icmp_seq=", src_addr_str);
+	printf("%d Time to live exceeded\n", inner_icmp_header->un.echo.sequence);
 }
 
 // --- ivoice.synology.me ping statistics ---
