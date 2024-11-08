@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:43:53 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/08 17:00:33 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/08 20:00:42 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@
 # define PAYLOAD_40_B		"Written by Jesus Serrano on November '24"
 # define BUFFER_LEN			1024
 # define FLOAT_MAX			3.402823466e+38F
-# define DEFAULT_INTERVAL	1
-# define DEFAULT_TTL		64
-# define DEFAULT_TIMEOUT	10
+# define DEFAULT_INTERVAL	1					// seconds
+# define DEFAULT_TTL		64					// hops
+# define DEFAULT_TIMEOUT	10					// seconds
 
 /*
 ** -.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-.-'-
