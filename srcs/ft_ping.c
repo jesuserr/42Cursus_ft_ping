@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:44:01 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/08 19:40:38 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/09 13:27:43 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	receive_packet(t_ping_data *ping_data)
 	ip_header = (struct iphdr *)buff;
 	ft_memcpy(&packet, buff + (ip_header->ihl * 4), sizeof(t_icmp_packet));
 	if (packet.icmp_header.type == ICMP_TIME_EXCEEDED && \
-	ping_data->args.verbose_mode)
+	ping_data->args.verbose_mode && !ping_data->args.quiet_mode)
 		print_ttl_exceeded_line(ping_data, buff, ip_header);
 	else if (packet.icmp_header.type == ICMP_ECHOREPLY && \
 	packet.icmp_header.un.echo.id == ping_data->packet.icmp_header.un.echo.id)

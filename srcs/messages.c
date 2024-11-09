@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 19:31:42 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/08 19:53:38 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/09 13:28:10 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	print_ttl_exceeded_line(t_ping_data *ping_data, char *buff, \
 {
 	struct icmphdr	*inner_icmp_header;
 	char			src_addr_str[INET_ADDRSTRLEN];
+	struct timeval	tv;
 
 	inner_icmp_header = (struct icmphdr *)(buff + (ip_header->ihl * 4) + \
 	sizeof(struct icmphdr) + sizeof(struct iphdr));
@@ -83,6 +84,12 @@ void	print_ttl_exceeded_line(t_ping_data *ping_data, char *buff, \
 	if (inet_ntop(AF_INET, &(ip_header->saddr), src_addr_str, INET_ADDRSTRLEN) \
 	== NULL)
 		print_perror_and_exit("inet_ntop ttl line", ping_data);
+	if (ping_data->args.print_timestamps)
+	{
+		if (gettimeofday(&tv, NULL) == -1)
+			print_perror_and_exit("gettimeofday exceeded ttl", ping_data);
+		printf("[%ld.%ld] ", tv.tv_sec, tv.tv_usec);
+	}
 	printf("From %s icmp_seq=", src_addr_str);
 	printf("%d Time to live exceeded\n", inner_icmp_header->un.echo.sequence);
 }
