@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:43:53 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/08 20:00:42 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/10 20:41:35 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <sys/socket.h>		// for socket, sendto
 # include <netinet/in.h>		// for IPPROTO_ICMP
 # include <netinet/ip_icmp.h>	// for struct icmphdr
+# include <netinet/ip.h>		// for struct iphdr
 # include <arpa/inet.h>			// for inet_addr
 # include <sys/time.h>  		// for gettimeofday
 # include <sys/types.h>			// for struct addrinfo
@@ -96,6 +97,7 @@ typedef struct s_ping_data
 **                        FUNCTION PROTOTYPES
 */
 /********************************** ft_ping.c *********************************/
+const char	*turn_ip_to_str(t_ping_data *ping_data, void *src, char *dst);
 void		fill_and_send_icmp_packet(t_ping_data *ping_data);
 void		ping_loop(t_ping_data *ping_data);
 

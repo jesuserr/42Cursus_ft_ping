@@ -6,11 +6,20 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:44:01 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/09 13:27:43 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/11 00:05:41 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ping.h"
+
+// Although more complex than inet_ntoa(), the function inet_ntop() is better
+// choice since it is thread-safe.
+const char	*turn_ip_to_str(t_ping_data *ping_data, void *src, char *dst)
+{
+	if (inet_ntop(AF_INET, src, dst, INET_ADDRSTRLEN) == NULL)
+		print_perror_and_exit("inet_ntop", ping_data);
+	return (dst);
+}
 
 // Calculates the checksum of the whole ICMP packet treating it as a sequence of
 // 16-bit words. After the sum it is verified if there is a carry, and if so, it
@@ -61,8 +70,8 @@ void	fill_and_send_icmp_packet(t_ping_data *ping_data)
 // Size of icmp_packet when is sent is 64 bytes. When the packet is received its
 // size is 84 bytes, since the 20 bytes IP header is now attached at the
 // beginning. In any case IP header length is calculated (not assumed to be 20).
-// Comment valid only for ICMP_ECHOREPLY packets. ICMP_TIME_EXCEEDED packets are
-// typically larger.
+// Comment valid only for ICMP_ECHOREPLY packets. ICMP_TIME_EXCEEDED packets
+// follow another rules.
 
 // Since recvfrom() is blocking, conditions EWOULDBLOCK / EAGAIN are checked to
 // see if recvfrom() failed because no data was available to read within the
@@ -93,8 +102,7 @@ void	receive_packet(t_ping_data *ping_data)
 	}
 	ip_header = (struct iphdr *)buff;
 	ft_memcpy(&packet, buff + (ip_header->ihl * 4), sizeof(t_icmp_packet));
-	if (packet.icmp_header.type == ICMP_TIME_EXCEEDED && \
-	ping_data->args.verbose_mode && !ping_data->args.quiet_mode)
+	if (packet.icmp_header.type == ICMP_TIME_EXCEEDED)
 		print_ttl_exceeded_line(ping_data, buff, ip_header);
 	else if (packet.icmp_header.type == ICMP_ECHOREPLY && \
 	packet.icmp_header.un.echo.id == ping_data->packet.icmp_header.un.echo.id)
