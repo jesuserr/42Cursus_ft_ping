@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:41:38 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/08 17:48:20 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/11 13:05:21 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,23 +46,23 @@ bool	check_if_only_digits(char *str)
 	return (true);
 }
 
-u_int8_t	check_argument_value_ttl(char *optarg)
+u_int8_t	check_argument_value_ttl(char *opt_arg)
 {
 	int32_t	value;
 
-	value = ft_atoi(optarg);
-	if (ft_strlen(optarg) > 3 || !check_if_only_digits(optarg) || value == 0 || \
-	value > 255)
+	value = ft_atoi(opt_arg);
+	if (ft_strlen(opt_arg) > 3 || !check_if_only_digits(opt_arg) || value == 0 \
+	|| value > 255)
 		print_error_and_exit("Out of range: 0 < integer value < 255");
 	return ((u_int8_t)value);
 }
 
-int32_t	check_argument_value(char *optarg)
+int32_t	check_argument_value(char *opt_arg)
 {
 	int32_t	value;
 
-	value = ft_atoi(optarg);
-	if (ft_strlen(optarg) > 9 || !check_if_only_digits(optarg) || value == 0)
+	value = ft_atoi(opt_arg);
+	if (ft_strlen(opt_arg) > 9 || !check_if_only_digits(opt_arg) || value == 0)
 		print_error_and_exit("Out of range: 0 < integer value < 999999999");
 	return (value);
 }
