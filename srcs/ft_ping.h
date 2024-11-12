@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:43:53 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/12 11:22:32 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/12 12:14:58 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,9 @@ typedef struct s_ping_data
 const char	*turn_ip_to_str(t_ping_data *ping_data, void *src, char *dst);
 void		fill_and_send_icmp_packet(t_ping_data *ping_data);
 void		ping_loop(t_ping_data *ping_data);
+
+/********************************** main.c ************************************/
+void		print_usage(void);
 
 /********************************** messages.c ********************************/
 void		print_header(t_ping_data *ping_data);

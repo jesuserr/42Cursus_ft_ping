@@ -6,11 +6,31 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:06:52 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/08 19:28:58 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/12 12:13:59 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ping.h"
+
+// Mandatory: -h or -?, -v and -V (3)
+// Bonus: -c <count>, -D, -i <interval>, -q, -t <ttl> and -W <timeout> (6)
+void	print_usage(void)
+{
+	printf("Usage\n"
+		"  ./ft_ping [options] <destination>\n\n"
+		"Options:\n"
+		"  <destination>      dns name or ip address\n"
+		"  -c <count>         stop after <count> replies\n"
+		"  -D                 print timestamps\n"
+		"  -h or -?           print help and exit\n"
+		"  -i <interval>      seconds between sending each packet\n"
+		"  -q                 quiet output\n"
+		"  -t <ttl>           define time to live\n"
+		"  -v                 verbose output\n"
+		"  -V                 print version and exit\n"
+		"  -W <timeout>       time to wait for response\n");
+	exit(EXIT_SUCCESS);
+}
 
 // Sets the socket options to deal with TTL and timeout. The values are set
 // according to the arguments passed or the default values if no arguments are

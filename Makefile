@@ -6,7 +6,7 @@
 #    By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/26 13:04:11 by jesuserr          #+#    #+#              #
-#    Updated: 2024/11/08 16:54:41 by jesuserr         ###   ########.fr        #
+#    Updated: 2024/11/12 12:15:32 by jesuserr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,6 @@ LIBFT_DIR = libft/
 
 NAME = ft_ping
 SRCS = main.c parser.c ft_ping.c signals.c messages.c
-SRCS_NORM = main.c ft_ping.c signals.c messages.c
 PATH_SRCS = ./srcs/
 PATH_OBJS = ./srcs/objs/
 PATH_DEPS = ./srcs/objs/
@@ -27,7 +26,7 @@ RM = rm -f
 CFLAGS = -Wall -Wextra -Werror -g -pedantic -Wshadow
 LDFLAGS = -lm
 
-NORM = $(addprefix $(PATH_SRCS), $(SRCS_NORM)) srcs/ft_ping.h
+NORM = $(addprefix $(PATH_SRCS), $(SRCS)) srcs/ft_ping.h
 GREEN = "\033[0;92m"
 RED = "\033[0;91m"
 BLUE = "\033[0;94m"
