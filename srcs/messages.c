@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 19:31:42 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/11 21:03:53 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/12 11:53:52 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,17 @@ void	print_response_line(t_ping_data *ping_data, t_icmp_packet packet, \
 		print_perror_and_exit("gettimeofday receive packet", ping_data);
 	if (ping_data->args.print_timestamps && !ping_data->args.quiet_mode)
 		printf("[%ld.%ld] ", tv.tv_sec, tv.tv_usec);
-	tv.tv_sec = tv.tv_sec - packet.seconds;
 	tv.tv_usec = tv.tv_usec - packet.microseconds;
-	time_ms = tv.tv_sec * 1000 + (float)tv.tv_usec / 1000;
-	if (time_ms > ping_data->max_time)
-		ping_data->max_time = time_ms;
-	if (time_ms < ping_data->min_time)
-		ping_data->min_time = time_ms;
-	ping_data->sum_times += time_ms;
-	delta_time = time_ms - ping_data->mean_time;
-	ping_data->mean_time += delta_time / ping_data->packets_received;
-	ping_data->square_dist += delta_time * (time_ms - ping_data->mean_time);
+	time_ms = (tv.tv_sec - packet.seconds) * 1000 + (float)tv.tv_usec / 1000;
+	if (time_ms > ping_data->timings.max_time)
+		ping_data->timings.max_time = time_ms;
+	if (time_ms < ping_data->timings.min_time)
+		ping_data->timings.min_time = time_ms;
+	ping_data->timings.sum_times += time_ms;
+	delta_time = time_ms - ping_data->timings.mean_time;
+	ping_data->timings.mean_time += delta_time / ping_data->packets_received;
+	ping_data->timings.square_dist += delta_time * \
+	(time_ms - ping_data->timings.mean_time);
 	if (ping_data->args.quiet_mode)
 		return ;
 	printf("%ld bytes from %s: ", sizeof(t_icmp_packet), ping_data->ip_str);
@@ -143,9 +143,8 @@ void	print_summary(t_ping_data *ping_data)
 	printf("packets received, %.0f%% packet loss\n", loss);
 	if (ping_data->packets_received == 0)
 		return ;
-	printf("round-trip min/avg/max/stddev = %.3f/", ping_data->min_time);
-	printf("%.3f/", ping_data->sum_times / ping_data->packets_received);
-	printf("%.3f/", ping_data->max_time);
-	printf("%.3f", sqrt(ping_data->square_dist / ping_data->packets_received));
-	printf(" ms\n");
+	printf("round-trip min/avg/max/stddev = %.3f", ping_data->timings.min_time);
+	printf("/%.3f", ping_data->timings.sum_times / ping_data->packets_received);
+	printf("/%.3f/%.3f ms\n", ping_data->timings.max_time, \
+	sqrt(ping_data->timings.square_dist / ping_data->packets_received));
 }

@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:44:01 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/12 11:19:11 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/12 11:23:23 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	receive_packet(t_ping_data *ping_data)
 // After loop is broken, the summary is printed and the socket is closed.
 void	ping_loop(t_ping_data *ping_data)
 {
-	ping_data->min_time = FLOAT_MAX;
+	ping_data->timings.min_time = FLOAT_MAX;
 	print_header(ping_data);
 	fill_and_send_icmp_packet(ping_data);
 	alarm(ping_data->args.interval_seconds);
