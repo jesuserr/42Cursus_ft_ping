@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 19:31:42 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/11 00:14:41 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/11 21:03:53 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ void	print_ttl_exceeded_line(t_ping_data *ping_data, char *buff, \
 	if (inner_icmp_header->un.echo.id != \
 	ping_data->packet.icmp_header.un.echo.id)
 		return ;
+	ping_data->ttl_packets_received++;
 	if (ping_data->args.print_timestamps)
 	{
 		if (gettimeofday(&tv, NULL) == -1)

@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 13:43:53 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/11 13:03:57 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/11 19:33:30 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct s_ping_data
 	int					sockfd;
 	char				ip_str[INET_ADDRSTRLEN];
 	uint16_t			packets_received;
+	uint16_t			ttl_packets_received;
 	float				min_time;
 	float				max_time;
 	float				sum_times;

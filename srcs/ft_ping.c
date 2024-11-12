@@ -6,7 +6,7 @@
 /*   By: jesuserr <jesuserr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 22:44:01 by jesuserr          #+#    #+#             */
-/*   Updated: 2024/11/11 00:05:41 by jesuserr         ###   ########.fr       */
+/*   Updated: 2024/11/12 11:19:11 by jesuserr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,12 @@ void	receive_packet(t_ping_data *ping_data)
 
 // Main loop of the program. The first packet is sent and an alarm is set to
 // send the next packet after the predetermined interval. The loop will run
-// forever or until the number of packets specified by the user is reached.
-// Loop can be broken with SIGINT signal (Ctrl+C). When loop is broken, the
-// summary is printed and the socket is closed.
+// indefinitely until user presses Ctrl+C (SIGINT) or any of the following
+// conditions are met:
+// 1. Number of packets received = number of packets specified by the user.
+// 2. Number of ttl packets received = number of packets specified by the user.
+// 3. Number of packets specified by user has been sent and timeout was reached.
+// After loop is broken, the summary is printed and the socket is closed.
 void	ping_loop(t_ping_data *ping_data)
 {
 	ping_data->min_time = FLOAT_MAX;
@@ -123,8 +126,11 @@ void	ping_loop(t_ping_data *ping_data)
 	while (1)
 	{
 		receive_packet(ping_data);
-		if (ping_data->packet.icmp_header.un.echo.sequence >= \
-		ping_data->args.count)
+		if (ping_data->packets_received >= ping_data->args.count || \
+		ping_data->ttl_packets_received >= ping_data->args.count || \
+		((errno == EWOULDBLOCK || errno == EAGAIN) && \
+		ping_data->packet.icmp_header.un.echo.sequence >= \
+		ping_data->args.count))
 			break ;
 	}
 	print_summary(ping_data);
